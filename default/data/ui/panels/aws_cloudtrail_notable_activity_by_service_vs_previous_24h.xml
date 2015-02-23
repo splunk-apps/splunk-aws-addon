@@ -1,0 +1,8 @@
+<panel>
+  <table>
+    <title>AWS CloudTrail - Notable Activity by Service in Past 24 Hours vs. Previous 24 Hours</title>
+    <searchString>sourcetype="aws:cloudtrail" NOT (eventName=Describe* OR eventName=List* OR eventName=Get*) | eval when=if(_time&gt;now()-86400, "current", "previous") | stats sparkline(count, 1h) as trend count(eval(when="current")) as count count(eval(when="previous")) as previous by eventSource | eval change=tostring(round(100*(count-previous)/previous,0))+"%" | eval change=if(change="Null%", "+%", change) | sort - count | rename count as current | fields eventSource current previous change trend |rename eventSource as "Event Source", current as "Current", previous as "Previous", change as "Change", trend as "Trend"</searchString>
+    <earliestTime>-48h</earliestTime>
+    <latestTime></latestTime>
+  </table>
+</panel>

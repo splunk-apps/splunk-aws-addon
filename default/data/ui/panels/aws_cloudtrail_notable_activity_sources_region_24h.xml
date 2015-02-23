@@ -1,0 +1,17 @@
+<panel>
+  <map>
+    <title>AWS CloudTrail - Notable Activity by Origin in Past 24 Hours</title>
+    <searchString>sourcetype="aws:cloudtrail" NOT (eventName=Describe* OR eventName=List* OR eventName=Get*) | stats count by sourceIPAddress eventSource               | iplocation sourceIPAddress | geostats latfield=lat longfield=lon sum(count) as count by eventSource</searchString>
+    <earliestTime>-24h</earliestTime>
+    <latestTime></latestTime>
+    <option name="mapping.data.maxClusters">100</option>
+    <option name="mapping.drilldown">all</option>
+    <option name="mapping.map.center">(0,0)</option>
+    <option name="mapping.map.zoom">2</option>
+    <option name="mapping.markerLayer.markerMaxSize">50</option>
+    <option name="mapping.markerLayer.markerMinSize">10</option>
+    <option name="mapping.markerLayer.markerOpacity">0.8</option>
+    <option name="mapping.tileLayer.maxZoom">7</option>
+    <option name="mapping.tileLayer.minZoom">0</option>
+  </map>
+</panel>

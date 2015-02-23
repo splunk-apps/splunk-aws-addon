@@ -1,0 +1,2 @@
+metric_name	metric_dimensions	period	SampleCount	Unit	Average	Minimum	Maximum	Sum
+ApproximateNumberOfMessagesVisible	QueueName=[ta-cloudtrail-singapore-2]	60		Count	1451.0			1451.0

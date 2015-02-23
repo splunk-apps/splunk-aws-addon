@@ -1,0 +1,74 @@
+<setup>
+  <!-- iterative update in this block -->
+  <block title="Existing AWS accounts" endpoint="admin/splunk_ta_aws_setup_account_list/" entity="*" mode="iter">
+        <text>
+        </text>
+        <text>* To remove an existing account, select the account and click save. Refresh the page to reflect the changes. </text>
+        <input field="delete">
+          <label>$name$ (Key ID: $key_id$)</label>
+          <type>bool</type>
+        </input>
+  </block>
+
+
+  <block title="Add New or Update AWS accounts" endpoint="admin/splunk_ta_aws_setup_account_new/" entity="*" mode="iter">
+    <text>* To update an existing account's key id and secret key, type the existing name in the name field. &lt;br&gt;
+        * Note: Only alphanumeric, space, dash, underscore and comma characters are supported for account names.
+    </text>
+        <input field="fname">
+            <label>Enter a friendly name</label>
+            <type>text</type>
+            <!-- <validation>[\w\d\-_\.]+</validation> -->
+       </input>
+        <input field="key_id">
+            <label>Enter your AWS account Key ID</label>
+            <type>text</type>
+            <!-- <validation>.+</validation> -->
+        </input>
+        <input field="secret_key">
+            <label>Enter password (your AWS account Secret Key)</label>
+            <type>password</type>
+            <!-- <validation>.+</validation> -->
+        </input>
+  </block>
+
+
+    <block title="Enter your proxy server information" endpoint="admin/splunk_ta_aws_proxy/" entity="proxy" >
+       <text>Proxy configuration, in format username:password@host:port</text>
+       <input field="enable">
+            <label>enable proxy</label>
+            <type>bool</type>
+        </input>
+        <input field="proxy">
+            <label>Proxy setting</label>
+            <type>text</type>
+            <!-- <validation>([^:@]+:[^:@]+@)?[^:@]+(:\d{1,5})?</validation> -->
+        </input>
+    </block>
+
+    <block title="Log Level Setting" endpoint="admin/splunk_ta_aws_log_level/" entity="log_level">
+       <text>Log level must be one of DEBUG, INFO, WARNING, ERROR or CRITICAL. Other text will be saved as INFO.&lt;br&gt;
+             WARNING: It is recommended to restart splunkd after you change one or more log levels because only newly started processes will use newly set log levels. </text>
+        <input field="aws_billing_log_level">
+            <label>AWS Billing</label>
+            <type>text</type>
+        </input>
+        <input field="aws_cloudtrail_log_level">
+            <label>AWS CloudTrail</label>
+            <type>text</type>
+        </input>
+        <input field="aws_cloudwatch_log_level">
+            <label>AWS CloudWatch</label>
+            <type>text</type>
+        </input>
+        <input field="aws_config_log_level">
+            <label>AWS Config</label>
+            <type>text</type>
+        </input>
+        <input field="aws_s3_log_level">
+            <label>AWS S3</label>
+            <type>text</type>
+        </input>
+    </block>
+
+</setup>

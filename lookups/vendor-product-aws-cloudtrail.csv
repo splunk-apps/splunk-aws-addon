@@ -1,0 +1,3 @@
+sourcetype,vendor,product,app
+aws:cloudtrail,Amazon Web Services,CloudTrail,aws:cloudtrail
+aws:cloudwatch,Amazon Web Services,CloudWatch,aws:cloudwatch

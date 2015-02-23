@@ -1,0 +1,7 @@
+metric_name	metric_dimensions	period	SampleCount	Unit	Average	Minimum	Maximum	Sum
+FreeStorageSpace	DBInstanceIdentifier=[ta-rds]	60	1.0	Bytes				1.04094277632e+11
+ReadLatency	DBInstanceIdentifier=[ta-rds]	60	1.0	Seconds				0.0
+WriteLatency	DBInstanceIdentifier=[ta-rds]	60	1.0	Seconds				0.000333333333333
+ReadIOPS	DBInstanceIdentifier=[ta-rds]	60	1.0	Count/Second				0.0
+DatabaseConnections	DBInstanceIdentifier=[ta-rds]	60	1.0	Count				0.0
+WriteIOPS	DBInstanceIdentifier=[ta-rds]	60	1.0	Count/Second				0.233329444509

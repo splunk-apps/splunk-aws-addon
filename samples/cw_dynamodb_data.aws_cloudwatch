@@ -1,0 +1,3 @@
+metric_name	metric_dimensions	period	SampleCount	Unit	Average	Minimum	Maximum	Sum
+ProvisionedWriteCapacityUnits	TableName=[cloudwatch_db_test]	60	1.0	Count	10.0	10.0	10.0	10.0
+ProvisionedReadCapacityUnits	TableName=[cloudwatch_db_test]	60	1.0	Count	10.0	10.0	10.0	10.0

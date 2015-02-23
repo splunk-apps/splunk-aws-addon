@@ -1,0 +1,5 @@
+metric_name	metric_dimensions	period	SampleCount	Unit	Average	Minimum	Maximum	Sum
+SwapUsage	CacheClusterId=[cloudwatchcachetest],CacheNodeId=[0001]	60	1.0	Bytes				40960.0
+BytesReadIntoMemcached	CacheClusterId=[cloudwatchcachetest],CacheNodeId=[0001]	60	1.0	Bytes				165.0
+BytesUsedForHash	CacheClusterId=[cloudwatchcachetest],CacheNodeId=[0001]	60	1.0	Bytes				524288.0
+FreeableMemory	CacheClusterId=[cloudwatchcachetest],CacheNodeId=[0001]	60	1.0	Bytes				6344704.0

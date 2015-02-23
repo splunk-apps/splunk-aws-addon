@@ -1,0 +1,13 @@
+<panel>
+  <table>
+    <title>AWS CloudTrail - Notable Activity by User in Past 24 Hours</title>
+    <searchString>sourcetype="aws:cloudtrail" NOT (eventName=Describe* OR eventName=List* OR eventName=Get*) | stats count by awsRegion userName eventName  |  stats sum(count) as count by userName | eventstats sum(count) as sum | sort - count  | eval percent=tostring(round(100*count/sum, 0))+"%" | fields - sum |rename userName as "User Name", count as Count, percent as Percent</searchString>
+    <earliestTime>-24h</earliestTime>
+    <latestTime></latestTime>
+    <option name="wrap">true</option>
+    <option name="rowNumbers">false</option>
+    <option name="dataOverlayMode">none</option>
+    <option name="drilldown">cell</option>
+    <option name="count">10</option>
+  </table>
+</panel>

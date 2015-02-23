@@ -1,0 +1,314 @@
+<endpoint name="data/inputs/aws_s3">
+  <header>AWS S3</header>
+  <breadcrumb>
+    <parent hidecurrent="False">datainputstats</parent>
+    <name i18ntag="">AWS S3</name>
+  </breadcrumb>
+  <elements>
+    
+    <element name="name" label="Input Name">
+      <view name="list"/>
+      <view name="create"/>
+    </element>
+    
+    <element name="sourceFields" type="fieldset">
+      <key name="legend">S3 Configuration</key>
+      <view name="list"/>
+      <view name="edit"/>
+      <view name="create"/>
+      <elements>
+
+
+        <element name="aws_account" type="select" label="AWS account">
+          <view name="list"/>
+          <view name="edit"/>
+          <view name="create"/>
+
+          <key name="topItem">-- Select AWS account --</key>
+          <key name="dynamicOptions" type="dict">
+            <key name="keyName">entry</key>
+            <key name="entityField">'accounts'</key>
+            <key name="splunkSource">'/admin/splunk_ta_aws_accout_list/'</key>
+            <key name="splunkSourceParams" type="dict">
+                <key name="aws_account_service">'all'</key>
+            </key>
+            <key name="splunkSourceEntity">'AwsAccountListResult'</key>
+          </key>
+          <key name="exampleText">Select the AWS account Splunk Enterprise
+              should use to access the files in your S3 buckets. To configure
+          AWS accounts, go to the setup page.</key>
+
+            <onChange>
+                <key name="_action">triggerElementRefresh</key>
+                <key name="_triggerOnLoad" type="bool">0</key>
+                <key name="target">bucket_name</key>
+                <key name="makeVisible" type="bool">1</key>
+            </onChange>
+
+        </element>
+
+        <element name="bucket_name" type="select" label="S3 bucket">
+          <view name="list"/>
+          <view name="edit"/>
+          <view name="create"/>
+          
+		  <key name="nullUnlessFieldSet">aws_account</key>
+          <key name="topItem">-- Select S3 bucket --</key>
+          <key name="dynamicOptions" type="dict">
+            <key name="keyName">entry</key>
+            <key name="entityField">'buckets'</key>
+            <key name="splunkSource">'/admin/splunk_ta_aws_s3buckets/'</key>
+            <key name="splunkSourceParams" type="dict">
+              <key name="aws_account">form_defaults['aws_account']</key>
+            </key>
+            <key name="splunkSourceEntity">'S3BucketsResult'</key>
+          </key>
+
+          <onChange>
+            <key name="_action">triggerElementRefresh</key>
+            <key name="_triggerOnLoad" type="bool">0</key>
+            <key name="target">key_name</key>
+            <key name="makeVisible" type="bool">1</key>
+          </onChange>
+          <key name="exampleText">Select an S3 bucket to scan for available object keys.</key>
+
+        </element>
+
+        <element name="key_name" type="select" label="S3 key name">
+          <key name="exampleText">Select a key to scan for available files.</key>
+          <view name="list"/>
+          <view name="edit"/>
+          <view name="create"/>
+          <key name="nullUnlessFieldSet">bucket_name</key>
+          <key name="topItem">-- Select Key Name --</key>
+          <key name="dynamicOptions" type="dict">
+              <key name="keyName">entry</key>
+              <key name="entityField">'key_names'</key>
+              <key name="splunkSource">'/admin/splunk_ta_aws_s3key/'</key>
+              <key name="splunkSourceParams" type="dict">
+                <key name="bucket_name">form_defaults['bucket_name']</key>
+                <key name="aws_account">form_defaults['aws_account']</key>
+              </key>
+              <key name="splunkSourceEntity">'S3KeyNamesResult'</key>
+          </key>
+        </element>
+
+      </elements>
+    </element>
+
+    <element name="spl-ctrl_EnableMessageProcessingConfig" type="checkbox" label="Message processing configuration" class="spl-mgr-advanced-switch">
+        <view name="edit"/>
+        <view name="create"/>
+          <onChange>
+              <key name="_action">showonly</key>
+              <key name="0">NONE</key>
+              <key name="1">ALL</key>
+              <group_set>
+                <group name="messageProcessingConfig"/>
+              </group_set>
+          </onChange>
+    </element>
+
+    <element name="messageProcessingConfig" type="fieldset" class="spl-mgr-advanced-options">
+      <view name="edit"/>
+      <view name="create"/>
+      <elements>
+
+        <element name="recursion_depth" type="textfield" label="Recursion depth">
+          <key name="exampleText">Defaults to -1 (recursively read all
+              subdirectories).</key>
+          <view name="edit"/>
+          <view name="create"/>
+        </element>
+
+        <element name="initial_scan_datetime" type="textfield" label="Initial scan time">
+          <key name="exampleText">
+              Enter the oldest file time that should
+              match a file scan, using ISO8601 formatting (2011-07-06T21:54:23.000-07:00).
+              This value defaults to seven days ago.
+          </key>
+          <view name="edit"/>
+          <view name="create"/>
+        </element>
+
+        <element name="max_items" type="textfield" label="Max trackable items">
+          <key name="exampleText">The maximum number of S3 files to be gathered.</key>
+          <view name="edit"/>
+          <view name="create"/>
+        </element>
+
+        <element name="max_retries" type="textfield" label="Max retries">
+          <key name="exampleText">Maximum number of retry attempts to stream incomplete files.</key>
+          <view name="edit"/>
+          <view name="create"/>
+        </element>
+
+        <element name="blacklist" type="textfield" label="Blacklist">
+          <key name="exampleText">Enter the regular expression for file names to ignore.</key>
+          <view name="edit"/>
+          <view name="create"/>
+        </element>
+
+        <element name="whitelist" type="textfield" label="Whitelist">
+          <key name="exampleText">Enter the regular expression for file names to accept. Important: whitelist is higher priority than blacklist.</key>
+          <view name="edit"/>
+          <view name="create"/>
+        </element>
+        
+        <element name="character_set" type="textfield" label="Character set">
+          <key name="exampleText">
+              Specify the encoding used in your S3 files.
+          &lt;br&gt;Selecting 'auto' causes Splunk Enterprise to perform
+          auto-detection among these options:&lt;br&gt; UTF-8, UTF8 without
+          BOM, UTF-16BE, UTF-16LE, UTF32BE, and UTF32LE. &lt;br&gt;If you
+          specify an encoding type, Splunk Enterprise does no auto-detection
+          and instead handles only that encoding for data input.
+          </key>
+          <view name="edit"/>
+          <view name="create"/>
+        </element>
+
+      </elements>
+    </element>
+
+    <element name="spl-ctrl_EnableAdvanced" type="checkbox" label="More settings" class="spl-mgr-advanced-switch">
+        <view name="edit"/>
+        <view name="create"/>
+          <onChange>
+              <key name="_action">showonly</key>
+              <key name="0">NONE</key>
+              <key name="1">ALL</key>
+              <group_set>
+                <group name="advanced"/>
+              </group_set>
+          </onChange>
+    </element>
+    
+    <element name="advanced" type="fieldset" class="spl-mgr-advanced-options">
+      <view name="list"/>
+      <view name="edit"/>
+      <view name="create"/>
+      <elements>
+        
+        <element name="intervalFields" type="fieldset">
+          <key name="legend">Interval</key>
+          <view name="edit"/>
+          <view name="create"/>
+          <elements>
+                <element name="interval" label="Interval">
+                  <key name="helpText">Enter the number of seconds to wait
+                      before Splunk Enterprise should run the command again,
+                      or a valid cron schedule.</key>
+                  <view name="list"/>
+                  <view name="edit"/>
+                  <view name="create"/>
+                </element>
+              </elements>
+        </element> 
+
+        <element name="sourcetypeFields" type="fieldset">
+          <view name="list"/>
+          <view name="edit"/>
+          <view name="create"/>
+          <key name="helpText">
+              Event extraction relies on the default value of
+          sourcetype. If you change the default value, you must update
+          props.conf as well.
+          </key>
+          <elements>
+            <element name="spl-ctrl_sourcetypeSelect" type="select" label="Set the source type">
+              <onChange>
+                <!-- <key name="auto">NONE</key> -->
+                <key name="_action">showonly</key>
+                <group_set>
+                  <group name="sourcetype"/>
+                  <group name="spl-ctrl_from_list"/>
+                </group_set>
+                <key name="sourcetype">sourcetype</key>
+                <key name="spl-ctrl_from_list">spl-ctrl_from_list</key>
+              </onChange>
+              <options>
+                <!-- <opt value="auto" label="Automatic"/> -->
+                <opt value="spl-ctrl_from_list" label="From list"/>
+                <opt value="sourcetype" label="Manual"/>
+              </options>
+              <view name="edit"/>
+              <view name="create"/>
+              <!-- <key name="exampleText">Set to automatic and Splunk will classify and assign sourcetype automatically. Unknown sourcetypes will be given a placeholder name.</key> -->
+              <key name="processValueEdit">[[ e for e in ['sourcetype'] if form_defaults.get(e) ][0]]</key>
+              <key name="processValueAdd">[[ e for e in ['sourcetype'] if form_defaults.get(e) ][0]]</key>
+            </element>
+            <element name="sourcetype" type="textfield" label="Source type">
+              <view name="list"/>
+              <view name="edit"/>
+              <view name="create"/>
+              <key name="exampleText">If this field is left blank, the default value of aws:s3 will be used for the source type.</key>
+              <key name="processValueList">_('script') if (value==None or value=='') else value</key>
+              <key name="submitValueAdd">form_data.get('spl-ctrl_from_list') if form_data.get('spl-ctrl_sourcetypeSelect')=='spl-ctrl_from_list' else value if (value!=None and value.strip()!='') else 'aws:s3'</key>
+              <key name="submitValueEdit">form_data.get('spl-ctrl_from_list') if form_data.get('spl-ctrl_sourcetypeSelect')=='spl-ctrl_from_list' else value if (value!=None and value.strip()!='') else 'aws:s3'</key>
+              <key name="labelList">Source type</key>
+            </element>
+            <element name="spl-ctrl_from_list" type="select" label="Select source type from list">
+              <view name="edit"/>
+              <view name="create"/>
+              <key name="exampleText">Splunk classifies all common data types automatically, but if you're looking for something specific, you can find more source types in the <![CDATA[<a href="../../../apps/remote">Splunkbase apps browser</a>]]> or online at <![CDATA[<a href="http://www.splunkbase.com/" target="_blank">www.splunkbase.com</a>]]>.</key>
+              <key name="requiredIfVisible" />
+              <key name="dynamicOptions" type="dict">
+                <key name="keyName">title</key>
+                <key name="keyValue">title</key>
+                <key name="splunkSource">/saved/sourcetypes</key>
+                <key name="splunkSourceParams" type="dict">
+                  <key name="count">-1</key>
+                  <key name="search">'pulldown_type=true'</key>
+                </key>
+                <key name="prefixOptions" type="list">
+                    <item type="list">
+                        <item></item>
+                        <item>Choose...</item>
+                    </item>
+                </key>
+              </key>
+            </element>
+          </elements>
+          <key name="legend">Source type</key>
+        </element>
+
+        <element name="hostFields" type="fieldset">
+          <key name="legend">Host</key>
+          <view name="edit"/>
+          <view name="create"/>
+          <elements>
+            <element name="host" type="textfield" label="Host field value">
+              <view name="edit"/>
+              <view name="create"/>
+            </element>
+          </elements>
+        </element>  
+        <element name="indexField" type="fieldset">
+          <key name="legend">Index</key>
+          <key name="helpText">Set the destination index for this source.</key>
+        <view name="list"/>
+          <view name="edit"/>
+          <view name="create"/>
+          <elements>
+            <element name="index" type="select" label="Index">
+              <view name="list"/>
+              <view name="edit"/>
+              <view name="create"/>
+              <key name="dynamicOptions" type="dict">
+                <key name="keyName">title</key>
+                <key name="keyValue">title</key>
+                <key name="splunkSource">/data/indexes</key>
+                <key name="splunkSourceParams" type="dict">
+                  <key name="search">'isInternal=false disabled=false'</key>
+                  <key name="count">-1</key>
+                </key>
+              </key>
+            </element>
+          </elements>
+        </element>
+      </elements>
+    </element>
+
+  </elements>
+</endpoint>

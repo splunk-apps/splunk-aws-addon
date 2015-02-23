@@ -1,0 +1,15 @@
+<panel>
+  <single>
+    <title>AWS CloudWatch - EC2 Failed Systems in Past 24 Hours</title>
+    <search>
+      <query>sourcetype=aws* sourcetype="aws:cloudwatch" metric_name=StatusCheckFailed_System | dedup metric_dimensions | stats sum(Average) as total | eval total=round(total, 0)  | rangemap field=total low=0-1 elevated=2-3 default=severe</query>
+      <earliest>-24h</earliest>
+      <latest></latest>
+    </search>
+    <option name="afterLabel">failed systems</option>
+    <option name="beforeLabel">Found</option>
+    <option name="classField">range</option>
+    <option name="linkFields">result</option>
+    <option name="linkSearch">sourcetype="aws:cloudwatch" metric_name=StatusCheckFailed_System Average &gt; 0.0 | dedup metric_dimensions</option>
+  </single>
+</panel>

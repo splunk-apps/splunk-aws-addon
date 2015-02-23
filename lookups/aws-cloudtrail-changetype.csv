@@ -1,0 +1,5 @@
+eventSource,change_type
+iam.amazonaws.com,IAM
+ec2.amazonaws.com,EC2
+sts.amazonaws.com,STS
+

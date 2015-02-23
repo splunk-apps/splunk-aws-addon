@@ -1,0 +1,15 @@
+type,object_category
+AWS::CloudTrail::Trail,object
+AWS::EC2::CustomerGateway,object
+AWS::EC2::EIP,object
+AWS::EC2::Instance,object
+AWS::EC2::InternetGateway,object
+AWS::EC2::NetworkAcl,object
+AWS::EC2::NetworkInterface,object
+AWS::EC2::RouteTable,object
+AWS::EC2::SecurityGroup,group
+AWS::EC2::Subnet,object
+AWS::EC2::VPC,object
+AWS::EC2::VPNConnection,object
+AWS::EC2::VPNGateway,object
+AWS::EC2::Volume,object

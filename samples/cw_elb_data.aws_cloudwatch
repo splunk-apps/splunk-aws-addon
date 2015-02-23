@@ -1,0 +1,3 @@
+metric_name	metric_dimensions	period	SampleCount	Unit	Average	Minimum	Maximum	Sum
+UnHealthyHostCount	AvailabilityZone=[ap-southeast-1a],LoadBalancerName=[shpool-old]	60		Count	0.0			
+HealthyHostCount	AvailabilityZone=[ap-southeast-1a],LoadBalancerName=[shpool-old]	60		Count	2.0			

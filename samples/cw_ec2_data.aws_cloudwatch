@@ -1,0 +1,4 @@
+metric_name	metric_dimensions	period	SampleCount	Unit	Average	Minimum	Maximum	Sum
+StatusCheckFailed_System	InstanceId=[i-11a52f39]	60		Count	0.0			0.0
+CPUUtilization	InstanceId=[i-11a52f39]	60		Percent	0.416			2.08
+DiskReadOps	InstanceId=[i-11a52f39]	60		Count	0.0			0.0
